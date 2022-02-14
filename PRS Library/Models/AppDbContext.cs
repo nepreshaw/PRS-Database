@@ -10,6 +10,10 @@ namespace PRS_Library {
     public class AppDbContext : DbContext {
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Request> Requests { get; set; }
+        public virtual DbSet<RequestLine> RequestLines { get; set; }
+
 
         public AppDbContext() {
         }
@@ -32,14 +36,12 @@ namespace PRS_Library {
             builder.Entity<Vendor>(
                 fred => fred.HasIndex(fred => fred.Code)
                 .IsUnique(true));
+            builder.Entity<Product>(
+                fred => fred.HasIndex(fred => fred.PartNbr)
+                .IsUnique(true));
+            builder.Entity<Product>(
+                fred => fred.HasIndex(fred => fred.Id)
+                .IsUnique(true));
         }
-
-        // unique code for Vendors
-        //protected override void OnModelCreating(ModelBuilder builder) {
-        //    builder.Entity<Vendor>(
-        //        fred => fred.HasIndex(fred => fred.Code)
-        //        .IsUnique(true));
-
-        //}
     }
 }

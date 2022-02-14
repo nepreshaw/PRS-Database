@@ -26,5 +26,6 @@ namespace PRS_Library {
         [Required]
         public bool IsAmin { get; set; }
 
+        public User() { }
     }
 }
