@@ -7,7 +7,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PRS_Library.Models {
     public class Vendor {
-        [Required]
         public int Id { get; set; }
         [Required]
         [StringLength(30)]
@@ -31,5 +30,7 @@ namespace PRS_Library.Models {
         public string Phone { get; set; }
         [StringLength(255)]
         public string Email { get; set; }
+
+        public Vendor() { }
     }
 }

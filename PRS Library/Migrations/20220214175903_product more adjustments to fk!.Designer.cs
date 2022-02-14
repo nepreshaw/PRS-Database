@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PRS_Library;
 
 namespace PRS_Library.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220214175903_product more adjustments to fk!")]
+    partial class productmoreadjustmentstofk
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,9 +38,6 @@ namespace PRS_Library.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<string>("Photopath")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -47,7 +46,7 @@ namespace PRS_Library.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<int>("VendorId")
+                    b.Property<int?>("VendorId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -97,12 +96,15 @@ namespace PRS_Library.Migrations
                     b.Property<decimal>("Total")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("User")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("User");
 
                     b.ToTable("Requests");
                 });
@@ -114,9 +116,6 @@ namespace PRS_Library.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<int>("PropId")
                         .HasColumnType("int");
 
@@ -127,10 +126,6 @@ namespace PRS_Library.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("RequestId");
 
                     b.ToTable("RequestLines");
                 });
@@ -239,41 +234,22 @@ namespace PRS_Library.Migrations
 
             modelBuilder.Entity("PRS_Library.Models.Product", b =>
                 {
-                    b.HasOne("PRS_Library.Models.Vendor", "Vendor")
+                    b.HasOne("PRS_Library.Models.Vendor", "Vendors")
                         .WithMany()
-                        .HasForeignKey("VendorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("VendorId");
 
-                    b.Navigation("Vendor");
+                    b.Navigation("Vendors");
                 });
 
             modelBuilder.Entity("PRS_Library.Models.Request", b =>
                 {
-                    b.HasOne("PRS_Library.User", "User")
+                    b.HasOne("PRS_Library.User", "UserNavigation")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("User")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("PRS_Library.Models.RequestLine", b =>
-                {
-                    b.HasOne("PRS_Library.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
-
-                    b.HasOne("PRS_Library.Models.Request", "Request")
-                        .WithMany()
-                        .HasForeignKey("RequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("Request");
+                    b.Navigation("UserNavigation");
                 });
 #pragma warning restore 612, 618
         }

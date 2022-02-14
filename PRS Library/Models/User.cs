@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PRS_Library {
     public class User {
-        [Required]
         public int Id { get; set; }
         [Required]
         [StringLength(30)]

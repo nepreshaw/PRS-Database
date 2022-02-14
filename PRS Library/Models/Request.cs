@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace PRS_Library.Models {
    public class Request {
-        [Required]
         public int Id { get; set; }
         [Required]
         [StringLength(80)]
@@ -27,9 +26,10 @@ namespace PRS_Library.Models {
         [Required]
         [Column(TypeName = "decimal(11,2")]
         public decimal Total { get; set; } = 0;
-        [Required]
-        [ForeignKey(nameof(User))]
-        public virtual User UserNavigation { get; set; }
+        //setting up fk
         public int UserId { get; set; }
+        public virtual User User { get; set; }
+
+        public Request() { }
     }
 }

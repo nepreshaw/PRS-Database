@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace PRS_Library.Models {
     public class Product {
-        [Required]
         public int Id { get; set; }
         [Required]
         [StringLength(30)]
@@ -22,11 +21,10 @@ namespace PRS_Library.Models {
         [Required]
         [StringLength(30)]
         public string Unit { get; set; }
-        //photopath
-        [Required]
-        [ForeignKey(nameof(Vendor))]
-        public virtual Vendor VendorNavigation  { get; set; }
+        public string Photopath { get; set; }
         public int VendorId { get; set; }
+        public virtual Vendor Vendor { get; set; }
 
+        public Product() { }
     }
 }
