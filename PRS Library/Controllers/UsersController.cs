@@ -50,6 +50,5 @@ namespace PRS_Library.Controllers {
             _context.Users.Remove(user);
             _context.SaveChanges();
         }
-
     }
 }
