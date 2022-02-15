@@ -14,6 +14,31 @@ namespace PRS_Library.Controllers {
             this._context = context;
         }
 
+
+
+        //totals method joins the requestlines and products table
+        //recalculates method
+        //this method needs to flow into the other methods for this class
+        private void RecalculateRequestTotal(int requestId) {
+            var request = _context.Requests.Find(requestId);
+
+            //new total
+            request.Total = (from rl in _context.RequestLines
+                             join p in _context.Products
+                             //on clause shows how they are put together
+                             on rl.ProductId equals p.Id
+                             //dont want all lines so we use a where clause
+                             where rl.RequestId == requestId
+                             //select columns says what we want to output
+                             //we dont want data of columns, just the data of the calculation. which is why
+                             //we use new
+                             select new {
+                                 //linetotal is a fred variable
+                                 LineTotal = rl.Quantity * p.Price
+                             }).Sum(x => x.LineTotal);
+            _context.SaveChanges();
+        }
+
         public IEnumerable<RequestLine> GetAll() {
             return _context.RequestLines.Include(x => x.Product).Include(x => x.Request).ToList();
         }
@@ -33,11 +58,13 @@ namespace PRS_Library.Controllers {
             }
             _context.Add(requestline);
             _context.SaveChanges();
+            RecalculateRequestTotal(requestline.RequestId);
             return requestline;
         }
 
         public void Change(RequestLine requestline) {
             _context.SaveChanges();
+            RecalculateRequestTotal(requestline.RequestId);
         }
 
         public void Remove(int id) {
@@ -47,6 +74,7 @@ namespace PRS_Library.Controllers {
             }
             _context.Remove(requestline);
             _context.SaveChanges();
+            RecalculateRequestTotal(requestline.RequestId);
         }
     }
 }

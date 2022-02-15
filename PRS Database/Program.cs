@@ -16,14 +16,40 @@ namespace PRS_Database {
 
             var context = new AppDbContext();
 
-            var userCtrl = new UsersController(context);
+            var reqlCtrl = new RequestsLineController(context);
 
-            var user = userCtrl.Login("sa", "sax");
-            if(user is null) {
-                Console.WriteLine("user not found");
-            } else {
-                Console.WriteLine(user.Username);
-            }
+            var reql = reqlCtrl.GetByPk(13);
+            reql.Quantity = 2;
+            reqlCtrl.Change(reql);
+
+
+
+            //var requestCtrl = new RequestsController(context);
+
+            //var reqs = requestCtrl.GetRequestsInReview(2);
+
+            //foreach(var req in reqs) {
+            //    Console.WriteLine($"{req.Description} {req.Status} {req.Total} {req.UserId} ");
+            //}
+
+            //var req = requestCtrl.GetByPk(5);
+
+            //requestCtrl.SetReview(req);
+            //requestCtrl.SetApproved(req);
+            //requestCtrl.SetRejected(req);
+
+            //req = requestCtrl.GetByPk(5);
+
+            //Console.WriteLine($"{ req.Description} { req.Status} {req.Total:c}" );
+
+            //var userCtrl = new UsersController(context);
+
+            //var user = userCtrl.Login("sa", "sax");
+            //if(user is null) {
+            //    Console.WriteLine("user not found");
+            //} else {
+            //    Console.WriteLine(user.Username);
+            //}
 
             //var username = "gdoud";
             //var password = "password";
