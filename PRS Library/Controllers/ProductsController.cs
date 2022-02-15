@@ -1,4 +1,5 @@
-﻿using PRS_Library.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using PRS_Library.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +15,18 @@ namespace PRS_Library.Controllers {
             this._context = context;
         }
 
+        //fk to Vendor
+        //uses lamba expression
+        //only need to to do this for reads
         public IEnumerable<Product> GetAll() {
-            return _context.Products.ToList();
+            return _context.Products.Include(x => x.Vendor).ToList();
         }
 
+        //single or default and lamba is like a where clause
+        //can't use find with this as it returns more than one result
         public Product GetByPk(int id) {
-            return _context.Products.Find(id);
+            return _context.Products.Include(x => x.Vendor)
+                    .SingleOrDefault(x => x.Id == id);
         }
 
         public Product Create(Product product) {
@@ -40,12 +47,11 @@ namespace PRS_Library.Controllers {
 
         public void Remove(int id) {
             var product = _context.Products.Find(id);
-            if(product is null) {
+            if(product is not null) {
                 throw new Exception("product not found");
             }
             _context.Remove(product);
             _context.SaveChanges();
         }
-
     }
 }

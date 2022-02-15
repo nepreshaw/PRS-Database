@@ -40,7 +40,7 @@ namespace PRS_Library.Controllers {
 
         public void Remove(int id) {
             var vendor = _context.Vendors.Find(id);
-            if (vendor is null) {
+            if (vendor is not null) {
                 throw new Exception("user not found");
             }
             _context.Remove(vendor);

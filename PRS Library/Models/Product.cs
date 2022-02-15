@@ -22,6 +22,7 @@ namespace PRS_Library.Models {
         [StringLength(30)]
         public string Unit { get; set; }
         public string Photopath { get; set; }
+
         public int VendorId { get; set; }
         public virtual Vendor Vendor { get; set; }
 

@@ -14,6 +14,12 @@ namespace PRS_Library.Controllers {
             this._context = context;
         }
 
+
+        public User Login(string username, string password) {
+            return _context.Users
+                .SingleOrDefault(x => x.Username == username && x.Password == password);
+        }
+
         //5 standard functions with controllers. two read options, insert, update, delete(maitenance funct.)
 
         //IEnumerable cantains most interface options
@@ -44,7 +50,7 @@ namespace PRS_Library.Controllers {
         
         public void Remove(int id) {
             var user = _context.Users.Find(id);
-            if(user is null) {
+            if(user is not null) {
                 throw new Exception("User not found");
             }
             _context.Users.Remove(user);
